@@ -201,7 +201,51 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         Returns the minimax action using self.depth and self.evaluationFunction
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        def value(state, agentIndex, depth, alpha, beta):
+            if depth == self.depth or state.isWin() or state.isLose():
+                return self.evaluationFunction(state)
+
+            if agentIndex == 0:
+                return maxValue(state, agentIndex, depth, alpha, beta)
+            else:
+                return minValue(state, agentIndex, depth, alpha, beta)
+        
+        def maxValue(state, agentIndex, depth, alpha, beta):
+            maxVal = -math.inf
+            nextAgentIndex = (agentIndex + 1) % state.getNumAgents()
+            nextDepth = depth + 1 if nextAgentIndex == 0 else depth
+            for action in state.getLegalActions(agentIndex):
+                nextVal = value(state.generateSuccessor(agentIndex, action), nextAgentIndex, nextDepth, alpha, beta)
+                maxVal = max(maxVal, nextVal)
+                if maxVal > beta:
+                    return maxVal
+                alpha = max(alpha, maxVal)
+            return maxVal
+
+        def minValue(state, agentIndex, depth, alpha, beta):
+            minVal = math.inf
+            nextAgentIndex = (agentIndex + 1) % state.getNumAgents()
+            nextDepth = depth + 1 if nextAgentIndex == 0 else depth
+            for action in state.getLegalActions(agentIndex):
+                nextVal = value(state.generateSuccessor(agentIndex, action), nextAgentIndex, nextDepth, alpha, beta)
+                minVal = min(minVal, nextVal)
+                if minVal < alpha:
+                    return minVal
+                beta = min(beta, minVal)
+            return minVal
+                
+        bestAction = None
+        bestScore = -math.inf
+        alpha = -math.inf
+        beta = math.inf
+        
+        for action in gameState.getLegalActions(0):
+            successorState = gameState.generateSuccessor(0, action)
+            score = value(successorState, 1, 0, alpha, beta)
+            if score > bestScore:
+                bestScore, bestAction = score, action
+            alpha = max(alpha, bestScore)
+        return bestAction
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
     """
