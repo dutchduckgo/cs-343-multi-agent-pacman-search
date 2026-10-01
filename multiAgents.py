@@ -11,6 +11,12 @@
 # Student side autograding was added by Brad Miller, Nick Hay, and
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
 
+# ---------------------------------------------------------------------------
+# AI assistance disclosure - Richard Shi
+# I used Claude Opus 5 to brainstorm and walk through the logic for Minimax and Expectimax and to
+# check for correctness of my evaluation functions.
+# All code was written by me.
+# ---------------------------------------------------------------------------
 
 from util import manhattanDistance
 from game import Directions
@@ -312,7 +318,7 @@ def betterEvaluationFunction(currentGameState: GameState):
     the nearest food, and the status of ghosts in relationship to their distance to pacman.
 
     The evaluation function rewards ghosts that are scared and close, and penalized ghosts that are
-    not scared and close. We don't consider ghosts that are further than a distance of 3 (manhattan) from
+    not scared and close. We don't consider ghosts that are further than a distance of 2 (manhattan) from
     pacman.
     """
     "*** YOUR CODE HERE ***"
